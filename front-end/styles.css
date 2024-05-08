@@ -1,0 +1,63 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+    margin: 0;
+  }
+  
+  #container {
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+  }
+  
+  .section {
+    margin-bottom: 20px;
+  }
+  
+  .input {
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+  
+  .button {
+    padding: 8px 16px;
+    background-color: #555;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .message-log {
+    padding: 10px;
+    background-color: #444;
+    border-radius: 4px;
+    max-width: 400px;
+    overflow-y: auto;
+    max-height: 200px;
+    margin: 0 auto;
+  }
+  
+  .message-log p {
+    margin: 5px 0;
+  }
+  
+  #disconnectButton {
+    position: absolute;
+    top: -30px;
+    right: 30px;
+  }
+  

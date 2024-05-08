@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "messages",
+  "info": {
+    "singularName": "message",
+    "pluralName": "messages",
+    "displayName": "Message",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "email": {
+      "type": "email",
+      "unique": true
+    },
+    "connection": {
+      "type": "string"
+    },
+    "isActive": {
+      "type": "boolean"
+    },
+    "isArchieved": {
+      "type": "boolean"
+    },
+    "messages": {
+      "type": "json"
+    }
+  }
+}

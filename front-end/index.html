@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebSocket Connection with Socket.IO</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div id="container">
+      <button id="disconnectButton" onclick="disconnect()" class="button" disabled>
+        Disconnect
+      </button>
+
+      <div id="emailSection" class="section" style="display: none">
+        <h1>Enter Your Email Address:</h1>
+        <input type="email" id="emailInput" class="input" />
+        <button onclick="sendEmail()" class="button">Submit</button>
+      </div>
+
+      <div id="messageSection" class="section" style="display: none">
+        <h1>Send Message to Server:</h1>
+        <input type="text" id="messageInput" class="input" />
+        <button onclick="sendMessage()" class="button">Send</button>
+      </div>
+
+      <div id="messageLog" class="message-log"></div> <!-- New div to display messages -->
+    </div>
+
+    <script>
+      // Connect to WebSocket server
+      const socket = io("http://localhost:1337", { path: "/message" });
+
+      // Connection established
+      // socket.on('connection', function() {
+      //   console.log('Connected to WebSocket server');
+      // });
+
+      socket.on("welcome", (message) => {
+        console.log(message);
+        document.getElementById("emailSection").style.display = "block";
+        document.getElementById("disconnectButton").disabled = false; // Enable disconnect button
+      });
+
+      // Listen for messages from the server
+      socket.on("message", (message) => {
+        console.log(message);
+        document.getElementById("messageLog").innerHTML += `<p>${message}</p>`;
+      });
+
+      // Error handling
+      socket.on('error', function(error) {
+        console.error('WebSocket error:', error);
+        document.getElementById("messageLog").innerHTML += `<p>${error}</p>`;
+      });
+
+      // // new connection closed
+      socket.on('destroy', function() {
+        window.location.reload();
+      });
+      function sendEmail() {
+        const emailInput = document.getElementById("emailInput").value;
+        if (emailInput.trim() !== "") {
+          socket.emit("email", emailInput);
+          console.log("Email sent to server:", emailInput);
+          document.getElementById("messageSection").style.display = "block"; // Show message section after email is submitted
+        } else {
+          console.error("Email input cannot be empty");
+        }
+      }
+
+      function sendMessage() {
+        const messageInput = document.getElementById("messageInput").value;
+        if (messageInput.trim() !== "") {
+          socket.emit("message", messageInput);
+          console.log("Message sent to server:", messageInput);
+        } else {
+          console.error("Message input cannot be empty");
+        }
+      }
+
+      function disconnect() {
+        const conn = socket.id;
+        socket.emit("destroy", conn);
+      }
+    </script>
+  </body>
+</html>
